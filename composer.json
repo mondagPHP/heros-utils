@@ -1,0 +1,46 @@
+{
+  "name": "mondagroup/heros-utils",
+  "description": "development tool",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "chenzifan",
+      "email": "chenzf@pvc123.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-mbstring": "*",
+    "ext-curl": "*",
+    "psr/container": "^1.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpunit/phpunit": "^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Monda\\Utils\\": "src/"
+    },
+    "files": [
+      "src/function.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Monda\\Utils\\Test\\": "tests/"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer"
+    }
+  },
+  "scripts": {
+    "cs": "composer dump -o && php-cs-fixer fix $1"
+  }
+}
