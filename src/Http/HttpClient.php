@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * This file is part of heros-util.
+ * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
  *
@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Monda\Utils\Http;
 
 use Monda\Utils\Exception\CurlException;
+use Monda\Utils\Exception\HeroException;
 use Monda\Utils\String\StringUtil;
 
 /**
@@ -27,6 +28,7 @@ class HttpClient
      */
     public static function get(string $url, array $params = [], array $headers = [], bool $returnHeader = false)
     {
+        self::checkExtensionLoaded();
         if ($params) {
             $params = http_build_query($params);
             if (false === strpos($url, '?')) {
@@ -50,6 +52,7 @@ class HttpClient
      */
     public static function getProxy(string $url, string $proxy, array $params = [], bool $returnHeader = false)
     {
+        self::checkExtensionLoaded();
         if ($params) {
             $params = http_build_query($params);
             if (false === strpos($url, '?')) {
@@ -74,6 +77,7 @@ class HttpClient
      */
     public static function post(string $url, array $params = [], array $headers = null)
     {
+        self::checkExtensionLoaded();
         if (is_array($params)) {
             $params = http_build_query($params);
         }
@@ -91,6 +95,7 @@ class HttpClient
      */
     public static function put(string $url, array $params = [])
     {
+        self::checkExtensionLoaded();
         if ($params) {
             $params = StringUtil::jsonEncode($params);
         }
@@ -108,6 +113,7 @@ class HttpClient
      */
     public static function delete($url, $params)
     {
+        self::checkExtensionLoaded();
         if ($params) {
             $params = StringUtil::jsonEncode($params);
         }
@@ -166,5 +172,15 @@ class HttpClient
             curl_setopt($curl, CURLOPT_HTTPHEADER, $_headers);
         }
         return $curl;
+    }
+
+    /**
+     * 检查是否安装curl
+     */
+    private static function checkExtensionLoaded()
+    {
+        if (! extension_loaded('curl')) {
+            throw new HeroException('please install curl extension.');
+        }
     }
 }

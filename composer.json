@@ -11,10 +11,6 @@
   ],
   "require": {
     "php": ">=7.2",
-    "ext-json": "*",
-    "ext-openssl": "*",
-    "ext-mbstring": "*",
-    "ext-curl": "*",
     "psr/container": "^1.0"
   },
   "require-dev": {

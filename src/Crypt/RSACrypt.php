@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 /**
- * This file is part of heros-util.
+ * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
  *
  */
 namespace Monda\Utils\Crypt;
+
+use Monda\Utils\Exception\HeroException;
 
 /**
  * Class RSACrypt
@@ -19,6 +21,9 @@ class RSACrypt
      */
     public function encryptByPrivateKey(string $data, string $privateKey): string
     {
+        if (! extension_loaded('openssl')) {
+            throw new HeroException('please install openssl extension.');
+        }
         $pi_key = openssl_pkey_get_private($privateKey);
         $encrypted = '';
         openssl_private_encrypt($data, $encrypted, $pi_key, OPENSSL_PKCS1_PADDING); //私钥加密
@@ -31,6 +36,9 @@ class RSACrypt
      */
     public function decryptByPublicKey(string $data, string $publicKey): string
     {
+        if (! extension_loaded('openssl')) {
+            throw new HeroException('please install openssl extension.');
+        }
         $pu_key = openssl_pkey_get_public($publicKey);
         $decrypted = '';
         $data = self::urlSafeB64decode($data);
@@ -43,6 +51,9 @@ class RSACrypt
      */
     public function encryptByPublicKey(string $data, string $publicKey): string
     {
+        if (! extension_loaded('openssl')) {
+            throw new HeroException('please install openssl extension.');
+        }
         $pu_key = openssl_pkey_get_public($publicKey);
         $encrypted = '';
         openssl_public_encrypt($data, $encrypted, $pu_key, OPENSSL_PKCS1_PADDING); //公钥加密
@@ -55,6 +66,9 @@ class RSACrypt
      */
     public function decryptByPrivateKey(string $data, string $privateKey): string
     {
+        if (! extension_loaded('openssl')) {
+            throw new HeroException('please install openssl extension.');
+        }
         $pi_key = openssl_pkey_get_private($privateKey);
         $decrypted = '';
         $data = self::urlSafeB64decode($data);

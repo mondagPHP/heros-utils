@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 /**
- * This file is part of heros-util.
+ * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
  *
  */
 namespace Monda\Utils\String;
 
+use Monda\Utils\Exception\HeroException;
 use Monda\Utils\Lock\SynLockFactory;
 
 /**
@@ -93,6 +94,9 @@ class StringUtil
      */
     public static function jsonEncode(array $array): string
     {
+        if (! extension_loaded('json')) {
+            throw new HeroException('please install json extension.');
+        }
         return json_encode($array, JSON_UNESCAPED_UNICODE);
     }
 
@@ -103,6 +107,9 @@ class StringUtil
      */
     public static function jsonDecode(string $string)
     {
+        if (! extension_loaded('json')) {
+            throw new HeroException('please install json extension.');
+        }
         $string = trim($string, "\xEF\xBB\xBF");
         return json_decode($string, true);
     }

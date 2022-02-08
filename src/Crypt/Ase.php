@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 /**
- * This file is part of heros-util.
+ * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
  *
  */
 namespace Monda\Utils\Crypt;
+
+use Monda\Utils\Exception\HeroException;
 
 /**
  * Class Ase
@@ -22,6 +24,9 @@ class Ase
      */
     public static function encrypt(string $str, string $aseKey): string
     {
+        if (! extension_loaded('openssl')) {
+            throw new HeroException('please install openssl extension.');
+        }
         $data = openssl_encrypt($str, 'AES-128-ECB', $aseKey, OPENSSL_RAW_DATA);
         return base64_encode($data);
     }
@@ -34,6 +39,9 @@ class Ase
      */
     public static function decrypt(string $str, string $aseKey): string
     {
+        if (! extension_loaded('openssl')) {
+            throw new HeroException('please install openssl extension.');
+        }
         return openssl_decrypt(base64_decode($str), 'AES-128-ECB', $aseKey, OPENSSL_RAW_DATA);
     }
 }

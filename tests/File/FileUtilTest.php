@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of heros-util.
+ * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
  *

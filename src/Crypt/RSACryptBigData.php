@@ -1,12 +1,14 @@
 <?php
 declare(strict_types=1);
 /**
- * This file is part of heros-util.
+ * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
  *
  */
 namespace Monda\Utils\Crypt;
+
+use Monda\Utils\Exception\HeroException;
 
 /**
  * Class RSACryptBigData
@@ -22,6 +24,9 @@ class RSACryptBigData
      */
     public function encryptByPublicKeyData(string $data, string $publicKey): string
     {
+        if (! extension_loaded('mbstring')) {
+            throw new HeroException('please install mbstring extension.');
+        }
         $RSACrypt = new RSACrypt();
         $cryptRes = '';
         for ($i = 0; $i < ((strlen($data) - strlen($data) % 117) / 117 + 1); ++$i) {
@@ -55,6 +60,9 @@ class RSACryptBigData
      */
     public function encryptByPrivateKeyData(string $data, string $privateKey): string
     {
+        if (! extension_loaded('mbstring')) {
+            throw new HeroException('please install mbstring extension.');
+        }
         $RSACrypt = new RSACrypt();
         $cryptRes = '';
         for ($i = 0; $i < ((strlen($data) - strlen($data) % 117) / 117 + 1); ++$i) {
