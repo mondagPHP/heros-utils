@@ -69,4 +69,17 @@ final class Sys
     {
         return \defined('PHP_VERSION') ? \PHP_VERSION : null;
     }
+
+    /**
+     * @return int
+     */
+    public static function cpuCount(): int
+    {
+        if ('darwin' === strtolower(PHP_OS)) {
+            $count = shell_exec('sysctl -n machdep.cpu.core_count');
+        } else {
+            $count = shell_exec('nproc');
+        }
+        return (int)$count > 0 ? (int)$count : 4;
+    }
 }

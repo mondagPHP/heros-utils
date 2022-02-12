@@ -81,8 +81,8 @@ if (! function_exists('copy_dir')) {
     function copy_dir(string $source, string $des)
     {
         if (is_dir($source)) {
-            if (! is_dir($des)) {
-                mkdir($des);
+            if (! is_dir($des) && ! mkdir($des) && ! is_dir($des)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $des));
             }
             $files = scandir($source);
             foreach ($files as $file) {
@@ -107,5 +107,36 @@ if (function_exists('remove_dir')) {
             (is_dir("$dir/$file") && ! is_link($dir)) ? remove_dir("$dir/$file") : unlink("$dir/$file");
         }
         return rmdir($dir);
+    }
+}
+
+if (! function_exists('if_then')) {
+    function if_then($instance, $callbackT, $callbackF)
+    {
+        if (is_null($callbackT) || is_null($callbackF)) {
+            return new Exception('ifThen callback params ERR');
+        }
+        if ($instance) {
+            return $callbackT($instance);
+        }
+        return $callbackF($instance);
+    }
+}
+
+if (! function_exists('throw_if')) {
+    function throw_if($boolean, $exception, $message = '')
+    {
+        if ($boolean) {
+            throw (is_string($exception) ? new $exception($message) : $exception);
+        }
+    }
+}
+
+if (! function_exists('throw_unless')) {
+    function throw_unless($boolean, $exception, $message)
+    {
+        if (! $boolean) {
+            throw (is_string($exception) ? new $exception($message) : $exception);
+        }
     }
 }

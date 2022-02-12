@@ -30,7 +30,7 @@ class RSACryptBigData
         $RSACrypt = new RSACrypt();
         $cryptRes = '';
         for ($i = 0; $i < ((strlen($data) - strlen($data) % 117) / 117 + 1); ++$i) {
-            $cryptRes = $cryptRes . ($RSACrypt->encryptByPublicKey(mb_strcut($data, $i * 117, 117, 'utf-8'), $publicKey));
+            $cryptRes .= ($RSACrypt->encryptByPublicKey(mb_strcut($data, $i * 117, 117, 'utf-8'), $publicKey));
         }
         return $cryptRes;
     }
@@ -47,7 +47,7 @@ class RSACryptBigData
         $decryptRes = '';
         $dataItems = explode('@', $data);
         foreach ($dataItems ?? [] as $value) {
-            $decryptRes = $decryptRes . $RSACrypt->decryptByPrivateKey($value, $privateKey);
+            $decryptRes .= $RSACrypt->decryptByPrivateKey($value, $privateKey);
         }
         return $decryptRes;
     }
@@ -66,7 +66,7 @@ class RSACryptBigData
         $RSACrypt = new RSACrypt();
         $cryptRes = '';
         for ($i = 0; $i < ((strlen($data) - strlen($data) % 117) / 117 + 1); ++$i) {
-            $cryptRes = $cryptRes . ($RSACrypt->encryptByPrivateKey(mb_strcut($data, $i * 117, 117, 'utf-8'), $privateKey));
+            $cryptRes .= ($RSACrypt->encryptByPrivateKey(mb_strcut($data, $i * 117, 117, 'utf-8'), $privateKey));
         }
         return $cryptRes;
     }
@@ -83,7 +83,7 @@ class RSACryptBigData
         $decryptRes = '';
         $dataItems = explode('@', $data);
         foreach ($dataItems ?? [] as $value) {
-            $decryptRes = $decryptRes . $RSACrypt->decryptByPublicKey($value, $publicKey);
+            $decryptRes .= $RSACrypt->decryptByPublicKey($value, $publicKey);
         }
         return $decryptRes;
     }

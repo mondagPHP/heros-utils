@@ -43,9 +43,9 @@ class StringBuffer
     /**
      * @param string $str
      */
-    public function append(string $str)
+    public function append(string $str): void
     {
-        array_push($this->strMap, $str);
+        $this->strMap[] = $str;
     }
 
     /**

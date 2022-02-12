@@ -29,13 +29,13 @@ class Time
             $return = floor($dif / 60) . '分钟前';
         } elseif ($dif < 10800) {
             $return = floor($dif / 3600) . '小时前';
-        } elseif (date('Y-m-d', $timestamp) == date('Y-m-d')) {
+        } elseif (date('Y-m-d', $timestamp) === date('Y-m-d')) {
             $return = '今天 ' . $hTime;
-        } elseif (date('Y-m-d', $timestamp) == date('Y-m-d', strtotime('-1 day'))) {
+        } elseif (date('Y-m-d', $timestamp) === date('Y-m-d', strtotime('-1 day'))) {
             $return = '昨天 ' . $hTime;
-        } elseif (date('Y-m-d', $timestamp) == date('Y-m-d', strtotime('-2 day'))) {
+        } elseif (date('Y-m-d', $timestamp) === date('Y-m-d', strtotime('-2 day'))) {
             $return = '前天 ' . $hTime;
-        } elseif (date('Y', $timestamp) == date('Y')) {
+        } elseif (date('Y', $timestamp) === date('Y')) {
             $return = date('m-d H:i', $timestamp);
         } else {
             $return = date('Y-m-d H:i', $timestamp);

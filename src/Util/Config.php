@@ -27,9 +27,9 @@ class Config
         try {
             $handler = opendir($configPath);
             while (($filename = readdir($handler)) !== false) {
-                if ('.' != $filename && '..' != $filename) {
+                if ('.' !== $filename && '..' !== $filename) {
                     $basename = basename($filename, '.php');
-                    if (in_array($basename, $excludeFile)) {
+                    if (in_array($basename, $excludeFile, true)) {
                         continue;
                     }
                     self::$config[$basename] = require_once $configPath . '/' . $filename;
@@ -73,7 +73,7 @@ class Config
      * @param string $configPath
      * @param array $excludeFile
      */
-    public static function reload(string $configPath, array $excludeFile = [])
+    public static function reload(string $configPath, array $excludeFile = []): void
     {
         self::$config = [];
         self::load($configPath, $excludeFile);
