@@ -30,4 +30,19 @@ class FileUtilTest extends TestCase
         $dirTraversal = FileUtil::dirTraversal(__DIR__);
         $this->assertEquals('FileUtilTest.php', $dirTraversal[0]);
     }
+
+    public function testGlobScandir()
+    {
+        $res1 = FileUtil::glob_scandir(__DIR__);
+        $this->assertEquals([
+            __DIR__ . '/A.txt',
+            __DIR__ . '/B',
+            __DIR__ . '/FileUtilTest.php'], $res1);
+
+        $res2 = FileUtil::glob_scandir(__DIR__, '/.*\.txt/');
+        $this->assertEquals([__DIR__ . '/A.txt'], $res2);
+
+        $res3 = FileUtil::glob_scandir(__DIR__, '/.*\.php/');
+        $this->assertEquals([__DIR__ . '/FileUtilTest.php'], $res3);
+    }
 }

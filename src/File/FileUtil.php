@@ -76,6 +76,35 @@ class FileUtil
     }
 
     /**
+     * 遍历目录，返回文件路径. 相似glob()
+     * @param string $dir
+     * @param string $filterPattern 筛选文件匹配的正则
+     * @return array
+     */
+    public static function glob_scandir(string $dir, string $filterPattern = ''): array
+    {
+        if (! is_dir($dir)) {
+            return [];
+        }
+        $files = scandir($dir);
+        $newFiles = array_filter($files, function($itemFile) use ($filterPattern) {
+            if ($itemFile === '..' || $itemFile === '.') {
+                return false;
+            }
+            if (empty($filterPattern)) {
+                return true;
+            }
+            $matchRes = preg_match($filterPattern, $itemFile);
+            return !($matchRes === 0 || $matchRes === false);
+        });
+        array_walk($newFiles, function (&$itemF) use ($dir) {
+            $itemF = rtrim($dir) . '/' . $itemF;
+        });
+        return array_values($newFiles);
+
+    }
+
+    /**
      * 获取目录文件.
      * @param string $absoluteDir
      * @param string $relativeDir
