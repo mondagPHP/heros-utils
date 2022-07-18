@@ -87,7 +87,7 @@ class FileUtil
             return [];
         }
         $files = scandir($dir);
-        $newFiles = array_filter($files, function($itemFile) use ($filterPattern) {
+        $newFiles = array_filter($files, function ($itemFile) use ($filterPattern) {
             if ($itemFile === '..' || $itemFile === '.') {
                 return false;
             }
@@ -95,13 +95,12 @@ class FileUtil
                 return true;
             }
             $matchRes = preg_match($filterPattern, $itemFile);
-            return !($matchRes === 0 || $matchRes === false);
+            return ! ($matchRes === 0 || $matchRes === false);
         });
         array_walk($newFiles, function (&$itemF) use ($dir) {
             $itemF = rtrim($dir) . '/' . $itemF;
         });
         return array_values($newFiles);
-
     }
 
     /**

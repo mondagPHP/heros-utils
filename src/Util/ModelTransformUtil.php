@@ -10,6 +10,7 @@ namespace Monda\Utils\Util;
 
 use Monda\Utils\Exception\HeroException;
 use Monda\Utils\String\StringUtil;
+use ReflectionNamedType;
 
 /**
  * Class ModelTransformUtil
@@ -17,6 +18,15 @@ use Monda\Utils\String\StringUtil;
  */
 class ModelTransformUtil
 {
+    private static $defaultProperties = [
+        'bool' => false,
+        'int' => 0,
+        'string' => '',
+        'array' => [],
+        'float' => 0.0,
+        'double' => '0.0'
+    ];
+
     /**
      * map转换为数据模型.
      * @throws \ReflectionException
@@ -25,6 +35,8 @@ class ModelTransformUtil
     {
         $refClass = new \ReflectionClass($class);
         $obj = $refClass->newInstance();
+        // Vo对象自动初始化
+        static::initParamByPHP80($refClass, $obj);
         foreach ($map as $key => $value) {
             $methodName = 'set' . ucwords(StringUtil::underline2hump($key));
             if ($refClass->hasMethod($methodName)) {
@@ -57,5 +69,45 @@ class ModelTransformUtil
             $map[$property] = $model->{$method}();
         }
         return $map;
+    }
+
+    /**
+     * @param \ReflectionClass $refClass
+     * @param object $obj
+     * @return void
+     * @throws \ReflectionException
+     */
+    protected static function initParamByPHP80(\ReflectionClass $refClass, object $obj): void
+    {
+        if (PHP_VERSION > 8.0) {
+            $properties = $refClass->getProperties();
+            /** @var \ReflectionProperty $property */
+            foreach ($properties ?? [] as $property) {
+                $property->setAccessible(true);
+                $reflectionType = $property->getType();
+                if ($property->getDefaultValue() !== null) {
+                    continue;
+                }
+                if ($reflectionType instanceof \ReflectionNamedType) {
+                    $type = $property->getType()->getName();
+                    if (in_array($type, array_keys(static::$defaultProperties))) {
+                        $methodName = 'set' . ucwords(StringUtil::underline2hump($property->getName()));
+                        $method = $refClass->getMethod($methodName);
+                        $method->invoke($obj, static::$defaultProperties[$type]);
+                    }
+                }
+                if ($reflectionType instanceof \ReflectionUnionType) {
+                    $types = $reflectionType->getTypes();
+                    /** @var ReflectionNamedType $type */
+                    foreach ($types ?? [] as $type) {
+                        if (in_array($type->getName(), array_keys(static::$defaultProperties))) {
+                            $methodName = 'set' . ucwords(StringUtil::underline2hump($property->getName()));
+                            $method = $refClass->getMethod($methodName);
+                            $method->invoke($obj, static::$defaultProperties[$type->getName()]);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
