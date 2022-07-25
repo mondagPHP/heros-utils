@@ -1,16 +1,16 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Util;
 
 /**
  * Class Config
- * @package Monda\Utils\Util
  */
 class Config
 {
@@ -32,7 +32,7 @@ class Config
                     if (in_array($basename, $excludeFile, true)) {
                         continue;
                     }
-                    self::$config[$basename] = require_once $configPath . '/' . $filename;
+                    self::$config[$basename] = require_once $configPath.'/'.$filename;
                 }
             }
         } finally {
@@ -42,6 +42,7 @@ class Config
 
     /**
      * 获取配置文件.
+     *
      * @return array
      */
     public static function all(): array
@@ -51,8 +52,9 @@ class Config
 
     /**
      * 获取配置文件.
-     * @param string $key 键
-     * @param null $default 默认值
+     *
+     * @param  string  $key 键
+     * @param  null  $default 默认值
      * @return mixed
      */
     public static function get(string $key, $default = null)
@@ -65,13 +67,15 @@ class Config
             }
             $value = $value[$index];
         }
+
         return $value;
     }
 
     /**
      * 重新加载.
-     * @param string $configPath
-     * @param array $excludeFile
+     *
+     * @param  string  $configPath
+     * @param  array  $excludeFile
      */
     public static function reload(string $configPath, array $excludeFile = []): void
     {

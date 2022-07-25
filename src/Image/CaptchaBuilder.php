@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Image;
 
 /**
@@ -35,7 +36,6 @@ namespace Monda\Utils\Image;
  *
  * 3、获取文本
  * $captcha->getText();
- *
  */
 class CaptchaBuilder implements CaptchaBuilderInterface
 {
@@ -105,7 +105,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
             'line' => false,    // 直线
             'curve' => true,    // 曲线
             'noise' => 1,       // 噪点背景
-            'fonts' => []       // 字体
+            'fonts' => [],       // 字体
         ]);
     }
 
@@ -126,13 +126,13 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         if (isset($config['fonts']) && empty($config['fonts']) === false) {
             $this->fonts = $config['fonts'];
         } else {
-            $fontDir = __DIR__ . '/fonts/';
+            $fontDir = __DIR__.'/fonts/';
             $this->fonts = array_filter(array_slice(scandir($fontDir), 2), function ($file) use ($fontDir) {
-                return is_file($fontDir . $file) && strcasecmp(pathinfo($file, PATHINFO_EXTENSION), 'ttf') === 0;
+                return is_file($fontDir.$file) && strcasecmp(pathinfo($file, PATHINFO_EXTENSION), 'ttf') === 0;
             });
             if (empty($this->fonts) === false) {
                 foreach ($this->fonts as &$font) {
-                    $font = $fontDir . $font;
+                    $font = $fontDir.$font;
                 }
                 unset($font);
             }
@@ -167,7 +167,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
 
         for ($i = 0; $i < $this->number; $i++) {
             $code[$i] = $this->characters[mt_rand(0, strlen($this->characters) - 1)];
-            $codeNX += mt_rand($this->fontSize * 1, (int)$this->fontSize);
+            $codeNX += mt_rand($this->fontSize * 1, (int) $this->fontSize);
             [$red, $green, $blue] = $this->getDeepColor();
             $color = imagecolorallocate($this->image, $red, $green, $blue);
             if ($color === false) {
@@ -176,6 +176,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
             imagettftext($this->image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize * 1.2, $color, $textFont, $code[$i]);
         }
         $this->text = strtolower(implode('', $code));
+
         return $this;
     }
 
@@ -212,12 +213,12 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         $T = mt_rand($this->height, $this->width * 2);  // 周期
         $w = (2 * M_PI) / $T;
         $px1 = 0;  // 曲线横坐标起始位置
-        $px2 = mt_rand($this->width / 2, (int)$this->width);  // 曲线横坐标结束位置
+        $px2 = mt_rand($this->width / 2, (int) $this->width);  // 曲线横坐标结束位置
         $color = imagecolorallocate($this->image, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if ($w != 0) {
                 $py = $A * sin($w * $px + $f) + $b + $this->height / 2;  // y = Asin(ωx+φ) + b
-                $i = (int)($this->fontSize / 5);
+                $i = (int) ($this->fontSize / 5);
                 while ($i > 0) {
                     imagesetpixel($this->image, $px + $i, $py + $i, $color);  // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
                     $i--;
@@ -237,7 +238,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if ($w != 0) {
                 $py = $A * sin($w * $px + $f) + $b + $this->height / 2;  // y = Asin(ωx+φ) + b
-                $i = (int)($this->fontSize / 5);
+                $i = (int) ($this->fontSize / 5);
                 while ($i > 0) {
                     imagesetpixel($this->image, $px + $i, $py + $i, $color);
                     $i--;
@@ -272,6 +273,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
     private function getFontColor()
     {
         [$red, $green, $blue] = $this->getDeepColor();
+
         return imagecolorallocate($this->image, $red, $green, $blue);
     }
 
@@ -295,6 +297,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
 
     /**
      * 获取随机浅色
+     *
      * @return array
      */
     private function getLightColor(): array
@@ -308,6 +311,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
 
     /**
      * 获取随机颜色
+     *
      * @return array
      */
     private function getRandColor(): array
@@ -320,11 +324,13 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         } else {
             $blue = 400 - $green - $red;
         }
+
         return [$red, $green, $blue];
     }
 
     /**
      * 获取随机深色
+     *
      * @return array
      */
     private function getDeepColor(): array
@@ -334,6 +340,7 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         $red = abs(min(255, $red - $increase));
         $green = abs(min(255, $green - $increase));
         $blue = abs(min(255, $blue - $increase));
+
         return [$red, $green, $blue];
     }
 }

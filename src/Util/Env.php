@@ -1,16 +1,16 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Util;
 
 /**
  * Class Env
- * @package Monda\Utils\Util
  */
 class Env
 {
@@ -33,8 +33,9 @@ class Env
 
     /**
      * 获取环境变量.
-     * @param string $key
-     * @param null $default
+     *
+     * @param  string  $key
+     * @param  null  $default
      * @return null|mixed
      */
     public function get(string $key, $default = null)
@@ -44,7 +45,8 @@ class Env
 
     /**
      * 解析加载项.
-     * @param string $str
+     *
+     * @param  string  $str
      * @return null|array
      */
     protected function parse(string $str): ?array

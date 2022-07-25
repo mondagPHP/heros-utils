@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Http;
 
 use Monda\Utils\Exception\CurlException;
@@ -13,15 +14,15 @@ use Monda\Utils\Exception\HeroException;
 
 /**
  * Class HttpClient
- * @package Monda\Utils\Http
  */
 class HttpClient
 {
     /**
      * 发送 http GET 请求
-     * @param string $url
-     * @param array $params
-     * @param array $headers 请求头信息
+     *
+     * @param  string  $url
+     * @param  array  $params
+     * @param  array  $headers 请求头信息
      * @return bool|string
      */
     public static function get(string $url, array $params = [], array $headers = [])
@@ -32,21 +33,23 @@ class HttpClient
         if ($params) {
             $query = http_build_query($params);
             if (false === strpos($url, '?')) {
-                $url .= '?' . $query;
+                $url .= '?'.$query;
             } else {
-                $url .= '&' . $query;
+                $url .= '&'.$query;
             }
         }
         $curl = self::_curlInit($url, $headers);
         curl_setopt($curl, CURLOPT_HTTPGET, true);
+
         return self::_doRequest($curl);
     }
 
     /**
      * 使用代理访问.
-     * @param string $url
-     * @param mixed $proxy 代理配置
-     * @param array $params
+     *
+     * @param  string  $url
+     * @param  mixed  $proxy 代理配置
+     * @param  array  $params
      * @return bool|string
      */
     public static function getProxy(string $url, string $proxy, array $params = [])
@@ -57,22 +60,24 @@ class HttpClient
         if ($params) {
             $query = http_build_query($params);
             if (false === strpos($url, '?')) {
-                $url .= '?' . $query;
+                $url .= '?'.$query;
             } else {
-                $url .= '&' . $query;
+                $url .= '&'.$query;
             }
         }
         $curl = self::_curlInit($url, null);
         curl_setopt($curl, CURLOPT_PROXY, $proxy);
         curl_setopt($curl, CURLOPT_HTTPGET, true);
+
         return self::_doRequest($curl);
     }
 
     /**
      * 发送http POST 请求
-     * @param string $url
-     * @param array $params
-     * @param array|null $headers
+     *
+     * @param  string  $url
+     * @param  array  $params
+     * @param  array|null  $headers
      * @return bool|string
      */
     public static function post(string $url, array $params = [], array $headers = [])
@@ -83,13 +88,15 @@ class HttpClient
         $curl = self::_curlInit($url, $headers);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
+
         return self::_doRequest($curl);
     }
 
     /**
      * 发送restful PUT请求
-     * @param string $url
-     * @param array $params
+     *
+     * @param  string  $url
+     * @param  array  $params
      * @return bool|string
      */
     public static function put(string $url, array $params = [])
@@ -100,11 +107,13 @@ class HttpClient
         $curl = self::_curlInit($url, ['Content-Type' => 'application/json']);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($params));
+
         return self::_doRequest($curl);
     }
 
     /**
      * 发送restful DELETE请求
+     *
      * @param $url
      * @param $params
      * @return mixed
@@ -117,18 +126,20 @@ class HttpClient
         if ($params) {
             $query = http_build_query($params);
             if (false === strpos($url, '?')) {
-                $url .= '?' . $query;
+                $url .= '?'.$query;
             } else {
-                $url .= '&' . $query;
+                $url .= '&'.$query;
             }
         }
         $curl = self::_curlInit($url, ['Content-Type' => 'application/json']);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
         return self::_doRequest($curl);
     }
 
     /**
      * 发送Http请求
+     *
      * @param $curl
      * @return bool|string
      */
@@ -143,8 +154,9 @@ class HttpClient
                 throw new CurlException('接口网络异常，请稍候再试');
             }
             if (false === $ret) {
-                throw new CurlException('cURLException:' . curl_error($curl));
+                throw new CurlException('cURLException:'.curl_error($curl));
             }
+
             return $ret;
         } finally {
             curl_close($curl);
@@ -153,8 +165,9 @@ class HttpClient
 
     /**
      * 创建curl对象
-     * @param string $url
-     * @param array $headers
+     *
+     * @param  string  $url
+     * @param  array  $headers
      * @return resource
      */
     private static function _curlInit(string $url, array $headers = [])
@@ -177,6 +190,7 @@ class HttpClient
             }
             curl_setopt($curl, CURLOPT_HTTPHEADER, $_headers);
         }
+
         return $curl;
     }
 }

@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Util;
 
 final class Csv
@@ -15,30 +16,30 @@ final class Csv
     /**
      * Simple parser for CSV files
      *
-     * @param string $csvFile
-     * @param string $delimiter
-     * @param string $enclosure
-     * @param bool $hasHeader
+     * @param  string  $csvFile
+     * @param  string  $delimiter
+     * @param  string  $enclosure
+     * @param  bool  $hasHeader
      * @return array
      */
     public static function parse(
         string $csvFile,
         string $delimiter = ';',
         string $enclosure = '"',
-        bool   $hasHeader = true
+        bool $hasHeader = true
     ): array {
         $result = [];
         $headerKeys = [];
         $rowCounter = 0;
         if (($handle = \fopen($csvFile, 'rb')) !== false) {
             while (($row = \fgetcsv($handle, self::LENGTH_LIMIT, $delimiter, $enclosure)) !== false) {
-                $row = (array)$row;
+                $row = (array) $row;
                 if ($rowCounter === 0 && $hasHeader) {
                     $headerKeys = $row;
                 } elseif ($hasHeader) {
                     $assocRow = [];
                     foreach ($headerKeys as $colIndex => $colName) {
-                        $colName = (string)$colName;
+                        $colName = (string) $colName;
                         $assocRow[$colName] = $row[$colIndex];
                     }
                     $result[] = $assocRow;
@@ -49,6 +50,7 @@ final class Csv
             }
             \fclose($handle);
         }
+
         return $result;
     }
 }

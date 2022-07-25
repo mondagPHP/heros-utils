@@ -1,16 +1,16 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\String;
 
 /**
  * Class StringBuffer
- * @package Monda\Utils\String
  */
 class StringBuffer
 {
@@ -18,7 +18,8 @@ class StringBuffer
 
     /**
      * StringBuffer constructor.
-     * @param string|null $str
+     *
+     * @param  string|null  $str
      */
     public function __construct(?string $str = null)
     {
@@ -41,7 +42,7 @@ class StringBuffer
     }
 
     /**
-     * @param string $str
+     * @param  string  $str
      */
     public function append(string $str): void
     {
@@ -49,21 +50,21 @@ class StringBuffer
     }
 
     /**
-     * @param string $str
+     * @param  string  $str
      */
     public function appendLine(string $str)
     {
-        $this->append($str . PHP_EOL);
+        $this->append($str.PHP_EOL);
     }
 
     /**
-     * @param string $str
-     * @param int $tabNum
+     * @param  string  $str
+     * @param  int  $tabNum
      */
     public function appendTab(string $str, int $tabNum = 1)
     {
         $tab = str_repeat("\t", $tabNum);
-        $this->append($str . $tab);
+        $this->append($str.$tab);
     }
 
     /**
@@ -76,6 +77,7 @@ class StringBuffer
                 $this->strMap[$key] = implode('', $value);
             }
         }
+
         return implode('', $this->strMap);
     }
 }

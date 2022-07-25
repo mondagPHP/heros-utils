@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\System;
 
 final class Sys
@@ -23,18 +24,18 @@ final class Sys
     /**
      * Alias fo ini_get function
      *
-     * @param string $varName
+     * @param  string  $varName
      * @return string
      */
     public static function iniGet(string $varName): string
     {
-        return (string)\ini_get($varName);
+        return (string) \ini_get($varName);
     }
 
     /**
      * Checks if function exists and callable
      *
-     * @param string|\Closure $funcName
+     * @param  string|\Closure  $funcName
      * @return bool
      */
     public static function isFunc($funcName): bool
@@ -50,14 +51,15 @@ final class Sys
     /**
      * Compares PHP versions
      *
-     * @param string $version
-     * @param string $current
+     * @param  string  $version
+     * @param  string  $current
      * @return bool
      */
     public static function isPHP(string $version, string $current = \PHP_VERSION): bool
     {
         $version = \trim($version, '.');
-        return (bool)\preg_match('#^' . \preg_quote($version, '') . '#i', $current);
+
+        return (bool) \preg_match('#^'.\preg_quote($version, '').'#i', $current);
     }
 
     /**
@@ -80,6 +82,7 @@ final class Sys
         } else {
             $count = shell_exec('nproc');
         }
-        return (int)$count > 0 ? (int)$count : 4;
+
+        return (int) $count > 0 ? (int) $count : 4;
     }
 }

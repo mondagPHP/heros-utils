@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Html;
 
 use Monda\Utils\Exception\HeroException;
@@ -14,8 +15,9 @@ class Rich
 {
     /**
      * 处理富文本图片，图片url路径转对象存储路径-->渲染
-     * @param string $text
-     * @param string $prefixPath
+     *
+     * @param  string  $text
+     * @param  string  $prefixPath
      * @return string
      */
     public static function richTextImgUrl2ResUrl(string $text, string $prefixPath): string
@@ -35,18 +37,21 @@ class Rich
             $nodeList = $xpath->query('//img');
             foreach ($nodeList as $node) {
                 $url = $node->attributes->getNamedItem('src')->nodeValue;
-                $node->setAttribute('src', $prefixPath . $url);
+                $node->setAttribute('src', $prefixPath.$url);
             }
+
             return self::dealRichText($dom->saveHTML());
         } catch (\Throwable $exception) {
         }
+
         return $text;
     }
 
     /**
      * 处理富文本图片，图片对象存储路径转url路径(保存、更新)
-     * @param string $text
-     * @param string $bucket
+     *
+     * @param  string  $text
+     * @param  string  $bucket
      * @return string
      */
     public static function richTextResUrl2ImgUrl(string $text, string $bucket): string
@@ -71,15 +76,18 @@ class Rich
                     $node->setAttribute('src', substr($matches[0], strlen("/{$bucket}/")));
                 }
             }
+
             return self::dealRichText($dom->saveHTML());
         } catch (\Throwable $exception) {
         }
+
         return $text;
     }
 
     /**
      * 处理富文本数据
-     * @param string $html
+     *
+     * @param  string  $html
      * @return string
      */
     private static function dealRichText(string $html): string

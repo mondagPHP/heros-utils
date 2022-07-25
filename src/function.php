@@ -3,7 +3,6 @@
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
 const HEROS_UTILS_VERSION = '0.0.1';
 
@@ -56,6 +55,7 @@ if (! function_exists('print_warning')) {
 
 /**
  * 计算CPU数量
+ *
  * @return int
  */
 if (! function_exists('cpu_count')) {
@@ -70,7 +70,8 @@ if (! function_exists('cpu_count')) {
         } else {
             $count = shell_exec('nproc');
         }
-        return (int)$count > 0 ? (int)$count : 4;
+
+        return (int) $count > 0 ? (int) $count : 4;
     }
 }
 
@@ -106,6 +107,7 @@ if (function_exists('remove_dir')) {
         foreach ($files as $file) {
             (is_dir("$dir/$file") && ! is_link($dir)) ? remove_dir("$dir/$file") : unlink("$dir/$file");
         }
+
         return rmdir($dir);
     }
 }
@@ -119,6 +121,7 @@ if (! function_exists('if_then')) {
         if ($instance) {
             return $callbackT($instance);
         }
+
         return $callbackF($instance);
     }
 }

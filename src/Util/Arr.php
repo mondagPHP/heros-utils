@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Util;
 
 use Closure;
@@ -15,8 +16,8 @@ final class Arr
     /**
      * Remove the duplicates from an array.
      *
-     * @param array $array
-     * @param bool $keepKeys
+     * @param  array  $array
+     * @param  bool  $keepKeys
      * @return array
      */
     public static function unique(array $array, bool $keepKeys = false): array
@@ -36,15 +37,16 @@ final class Arr
     /**
      * Check if key exists
      *
-     * @param string|int $key
-     * @param array $array
-     * @param bool $returnValue
+     * @param  string|int  $key
+     * @param  array  $array
+     * @param  bool  $returnValue
      * @return mixed
+     *
      * @deprecated Use array_key_exists or ?: or ??
      */
     public static function key($key, array $array, bool $returnValue = false)
     {
-        $isExists = \array_key_exists((string)$key, $array);
+        $isExists = \array_key_exists((string) $key, $array);
 
         if ($returnValue) {
             if ($isExists) {
@@ -60,9 +62,9 @@ final class Arr
     /**
      * Check is value exists in the array
      *
-     * @param mixed $value
-     * @param array $array
-     * @param bool $returnKey
+     * @param  mixed  $value
+     * @param  array  $array
+     * @param  bool  $returnKey
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.ShortMethodName)
@@ -85,7 +87,7 @@ final class Arr
     /**
      * Returns the first element in an array.
      *
-     * @param array $array
+     * @param  array  $array
      * @return mixed
      */
     public static function first(array $array)
@@ -96,7 +98,7 @@ final class Arr
     /**
      * Returns the last element in an array.
      *
-     * @param array $array
+     * @param  array  $array
      * @return mixed
      */
     public static function last(array $array)
@@ -107,32 +109,34 @@ final class Arr
     /**
      * Returns the first key in an array.
      *
-     * @param array $array
+     * @param  array  $array
      * @return int|string|null
      */
     public static function firstKey(array $array)
     {
         \reset($array);
+
         return \key($array);
     }
 
     /**
      * Returns the last key in an array.
      *
-     * @param array $array
+     * @param  array  $array
      * @return int|string|null
      */
     public static function lastKey(array $array)
     {
         \end($array);
+
         return \key($array);
     }
 
     /**
      * Flatten a multi-dimensional array into a one dimensional array.
      *
-     * @param array $array The array to flatten
-     * @param bool $preserveKeys Whether or not to preserve array keys. Keys from deeply nested arrays will
+     * @param  array  $array The array to flatten
+     * @param  bool  $preserveKeys Whether or not to preserve array keys. Keys from deeply nested arrays will
      *                            overwrite keys from shallow nested arrays
      * @return array
      */
@@ -143,8 +147,8 @@ final class Arr
         \array_walk_recursive(
             $array,
             /**
-             * @param mixed $value
-             * @param string|int $key
+             * @param  mixed  $value
+             * @param  string|int  $key
              */
             static function ($value, $key) use (&$flattened, $preserveKeys): void {
                 if ($preserveKeys && ! \is_int($key)) {
@@ -162,9 +166,9 @@ final class Arr
      * Searches for a given value in an array of arrays, objects and scalar values. You can optionally specify
      * a field of the nested arrays and objects to search in.
      *
-     * @param array $array The array to search
-     * @param mixed $search The value to search for
-     * @param string|null $field The field to search in, if not specified all fields will be searched
+     * @param  array  $array The array to search
+     * @param  mixed  $search The value to search for
+     * @param  string|null  $field The field to search in, if not specified all fields will be searched
      * @return bool|mixed  False on failure or the array key on success
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -172,11 +176,11 @@ final class Arr
     public static function search(array $array, $search, ?string $field = null)
     {
         // *grumbles* stupid PHP type system
-        $search = (string)$search;
+        $search = (string) $search;
         foreach ($array as $key => $element) {
             // *grumbles* stupid PHP type system
 
-            $key = (string)$key;
+            $key = (string) $key;
 
             if ($field) {
                 if (\is_object($element) && $element->{$field} === $search) {
@@ -191,7 +195,7 @@ final class Arr
                     return $key;
                 }
             } elseif (\is_object($element)) {
-                $element = (array)$element;
+                $element = (array) $element;
                 if (\in_array($search, $element, false)) {
                     return $key;
                 }
@@ -209,9 +213,9 @@ final class Arr
      * Returns an array containing all the elements of arr1 after applying
      * the callback function to each one.
      *
-     * @param array $array An array to run through the callback function
-     * @param callable $callback Callback function to run for each element in each array
-     * @param bool $onNoScalar Whether or not to call the callback function on non scalar values
+     * @param  array  $array An array to run through the callback function
+     * @param  callable  $callback Callback function to run for each element in each array
+     * @param  bool  $onNoScalar Whether or not to call the callback function on non scalar values
      *                             (Objects, resources, etc)
      * @return array
      */
@@ -232,7 +236,7 @@ final class Arr
     /**
      * Clean array by custom rule
      *
-     * @param array $haystack
+     * @param  array  $haystack
      * @return array
      */
     public static function clean(array $haystack): array
@@ -243,7 +247,7 @@ final class Arr
     /**
      * Clean array before serialize to JSON
      *
-     * @param array $array
+     * @param  array  $array
      * @return array
      */
     public static function cleanBeforeJson(array $array): array
@@ -264,7 +268,7 @@ final class Arr
     /**
      * Check is array is type assoc
      *
-     * @param array $array
+     * @param  array  $array
      * @return bool
      */
     public static function isAssoc(array $array): bool
@@ -275,9 +279,9 @@ final class Arr
     /**
      * Add cell to the start of assoc array
      *
-     * @param array $array
-     * @param string|int $key
-     * @param mixed $value
+     * @param  array  $array
+     * @param  string|int  $key
+     * @param  mixed  $value
      * @return array
      */
     public static function unshiftAssoc(array &$array, $key, $value): array
@@ -292,8 +296,8 @@ final class Arr
     /**
      * Get one field from array of arrays (array of objects)
      *
-     * @param array $arrayList
-     * @param string $fieldName
+     * @param  array  $arrayList
+     * @param  string  $fieldName
      * @return array
      */
     public static function getField(array $arrayList, string $fieldName = 'id'): array
@@ -316,8 +320,8 @@ final class Arr
     /**
      * Group array by key
      *
-     * @param array $arrayList
-     * @param string $key
+     * @param  array  $arrayList
+     * @param  string  $key
      * @return array
      */
     public static function groupByKey(array $arrayList, string $key = 'id'): array
@@ -342,8 +346,8 @@ final class Arr
     /**
      * Recursive array mapping
      *
-     * @param Closure $function
-     * @param array $array
+     * @param  Closure  $function
+     * @param  array  $array
      * @return array
      */
     public static function map(Closure $function, array $array): array
@@ -364,8 +368,8 @@ final class Arr
     /**
      * Sort an array by keys based on another array
      *
-     * @param array $array
-     * @param array $orderArray
+     * @param  array  $array
+     * @param  array  $orderArray
      * @return array
      */
     public static function sortByArray(array $array, array $orderArray): array
@@ -376,8 +380,8 @@ final class Arr
     /**
      * Add some prefix to each key
      *
-     * @param array $array
-     * @param string $prefix
+     * @param  array  $array
+     * @param  string  $prefix
      * @return array
      */
     public static function addEachKey(array $array, string $prefix): array
@@ -385,7 +389,7 @@ final class Arr
         $result = [];
 
         foreach ($array as $key => $item) {
-            $result[$prefix . $key] = $item;
+            $result[$prefix.$key] = $item;
         }
 
         return $result;
@@ -394,14 +398,14 @@ final class Arr
     /**
      * Convert assoc array to comment style
      *
-     * @param array $data
+     * @param  array  $data
      * @return string
      */
     public static function toComment(array $data): string
     {
         $result = [];
         foreach ($data as $key => $value) {
-            $result[] = $key . ': ' . $value . ';';
+            $result[] = $key.': '.$value.';';
         }
 
         return \implode(\PHP_EOL, $result);
@@ -410,13 +414,13 @@ final class Arr
     /**
      * Wraps its argument in an array unless it is already an array
      *
-     * @param mixed $object
+     * @param  mixed  $object
      * @return array
+     *
      * @example
      *   Arr.wrap(null)      # => []
      *   Arr.wrap([1, 2, 3]) # => [1, 2, 3]
      *   Arr.wrap(0)         # => [0]
-     *
      */
     public static function wrap($object): array
     {
@@ -432,8 +436,8 @@ final class Arr
     }
 
     /**
-     * @param array $array
-     * @param string|float|int|bool|null $value
+     * @param  array  $array
+     * @param  string|float|int|bool|null  $value
      * @return array
      */
     public static function removeByValue(array $array, $value): array
@@ -441,7 +445,7 @@ final class Arr
         return \array_filter(
             $array,
             /**
-             * @param string|float|int|bool|null $arrayItem
+             * @param  string|float|int|bool|null  $arrayItem
              */
             static function ($arrayItem) use ($value): bool {
                 return $value !== $arrayItem;

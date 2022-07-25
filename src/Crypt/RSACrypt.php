@@ -1,18 +1,18 @@
 <?php
+
 declare(strict_types=1);
 /**
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
- *
  */
+
 namespace Monda\Utils\Crypt;
 
 use Monda\Utils\Exception\HeroException;
 
 /**
  * Class RSACrypt
- * @package Monda\Utils\Crypt
  */
 class RSACrypt
 {
@@ -43,6 +43,7 @@ class RSACrypt
         $decrypted = '';
         $data = self::urlSafeB64decode($data);
         openssl_public_decrypt($data, $decrypted, $pu_key); //公钥解密
+
         return $decrypted;
     }
 
@@ -73,23 +74,27 @@ class RSACrypt
         $decrypted = '';
         $data = self::urlSafeB64decode($data);
         openssl_private_decrypt($data, $decrypted, $pi_key); //私钥解密
+
         return $decrypted;
     }
 
     /**
      * 安全的b64encode.
-     * @param string $string
+     *
+     * @param  string  $string
      * @return mixed|string
      */
     private static function urlSafeB64encode(string $string): string
     {
         $data = base64_encode($string);
+
         return str_replace(['+', '/', '='], ['-', '_', '@'], $data);
     }
 
     /**
      * 安全的b64decode.
-     * @param string $string
+     *
+     * @param  string  $string
      * @return string
      */
     private static function urlSafeB64decode(string $string): string
@@ -99,6 +104,7 @@ class RSACrypt
         if ($mod4) {
             $data .= substr('====', $mod4);
         }
+
         return base64_decode($data);
     }
 }
