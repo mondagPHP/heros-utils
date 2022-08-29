@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Util;
 
 use Closure;
@@ -389,7 +389,7 @@ final class Arr
         $result = [];
 
         foreach ($array as $key => $item) {
-            $result[$prefix.$key] = $item;
+            $result[$prefix . $key] = $item;
         }
 
         return $result;
@@ -405,7 +405,7 @@ final class Arr
     {
         $result = [];
         foreach ($data as $key => $value) {
-            $result[] = $key.': '.$value.';';
+            $result[] = $key . ': ' . $value . ';';
         }
 
         return \implode(\PHP_EOL, $result);

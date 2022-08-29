@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Wechat;
 
 use Monda\Utils\Exception\HeroException;
@@ -27,7 +27,7 @@ class Avatar
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $imgContent, $result)) {
             $type = $result[2]; //得到图片类型png?jpg?gif?
             FileUtil::makeFileDirs($savePath);
-            $newFile = $savePath.date('YmdHis').'.'.$type;
+            $newFile = $savePath . date('YmdHis') . '.' . $type;
             if (file_put_contents($newFile, base64_decode(str_replace($result[1], '', $imgContent)))) {
                 return $newFile;
             }
@@ -64,6 +64,6 @@ class Avatar
             return false;
         }
 
-        return 'data:image/jpeg;base64,'.base64_encode($data);
+        return 'data:image/jpeg;base64,' . base64_encode($data);
     }
 }

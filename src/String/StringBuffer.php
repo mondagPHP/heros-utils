@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\String;
 
 /**
@@ -54,7 +54,7 @@ class StringBuffer
      */
     public function appendLine(string $str)
     {
-        $this->append($str.PHP_EOL);
+        $this->append($str . PHP_EOL);
     }
 
     /**
@@ -64,7 +64,7 @@ class StringBuffer
     public function appendTab(string $str, int $tabNum = 1)
     {
         $tab = str_repeat("\t", $tabNum);
-        $this->append($str.$tab);
+        $this->append($str . $tab);
     }
 
     /**

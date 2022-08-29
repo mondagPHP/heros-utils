@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Lock;
 
 use Monda\Utils\File\FileUtil;
@@ -32,7 +32,7 @@ class FileSynLock implements ISynLock
         if (false === $bool) {
             throw new \RuntimeException("create path ({$lockDir}) error!!!");
         }
-        $this->lockFile = $lockDir.md5($key).'.lock';
+        $this->lockFile = $lockDir . md5($key) . '.lock';
         $this->fileHandler = fopen($this->lockFile, 'wb');
     }
 

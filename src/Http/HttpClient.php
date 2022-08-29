@@ -5,12 +5,13 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Http;
 
 use Monda\Utils\Exception\CurlException;
 use Monda\Utils\Exception\HeroException;
+use Monda\Utils\String\StringUtil;
 
 /**
  * Class HttpClient
@@ -27,20 +28,16 @@ class HttpClient
      */
     public static function get(string $url, array $params = [], array $headers = [])
     {
-        if (! extension_loaded('curl')) {
-            throw new HeroException('please install curl extension.');
-        }
         if ($params) {
             $query = http_build_query($params);
             if (false === strpos($url, '?')) {
-                $url .= '?'.$query;
+                $url .= '?' . $query;
             } else {
-                $url .= '&'.$query;
+                $url .= '&' . $query;
             }
         }
         $curl = self::_curlInit($url, $headers);
         curl_setopt($curl, CURLOPT_HTTPGET, true);
-
         return self::_doRequest($curl);
     }
 
@@ -54,15 +51,12 @@ class HttpClient
      */
     public static function getProxy(string $url, string $proxy, array $params = [])
     {
-        if (! extension_loaded('curl')) {
-            throw new HeroException('please install curl extension.');
-        }
         if ($params) {
             $query = http_build_query($params);
             if (false === strpos($url, '?')) {
-                $url .= '?'.$query;
+                $url .= '?' . $query;
             } else {
-                $url .= '&'.$query;
+                $url .= '&' . $query;
             }
         }
         $curl = self::_curlInit($url, null);
@@ -82,13 +76,29 @@ class HttpClient
      */
     public static function post(string $url, array $params = [], array $headers = [])
     {
-        if (! extension_loaded('curl')) {
-            throw new HeroException('please install curl extension.');
-        }
         $curl = self::_curlInit($url, $headers);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
 
+        return self::_doRequest($curl);
+    }
+
+    /**
+     * @param string $url
+     * @param array $params
+     * @param array $headers
+     * @return bool|string
+     */
+    public static function postJson(string $url, array $params = [], array $headers = [])
+    {
+        $jsonStr = StringUtil::jsonEncode($params);
+        $headers = array_merge($headers, [
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length: ' . strlen($jsonStr)
+        ]);
+        $curl = self::_curlInit($url, $headers);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $jsonStr);
         return self::_doRequest($curl);
     }
 
@@ -101,12 +111,9 @@ class HttpClient
      */
     public static function put(string $url, array $params = [])
     {
-        if (! extension_loaded('curl') || ! extension_loaded('json')) {
-            throw new HeroException('please install curl extension.');
-        }
         $curl = self::_curlInit($url, ['Content-Type' => 'application/json']);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($params));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, StringUtil::jsonEncode($params));
 
         return self::_doRequest($curl);
     }
@@ -114,21 +121,18 @@ class HttpClient
     /**
      * 发送restful DELETE请求
      *
-     * @param $url
-     * @param $params
+     * @param string $url
+     * @param array $params
      * @return mixed
      */
     public static function delete(string $url, array $params = [])
     {
-        if (! extension_loaded('curl') || ! extension_loaded('json')) {
-            throw new HeroException('please install curl extension.');
-        }
         if ($params) {
             $query = http_build_query($params);
             if (false === strpos($url, '?')) {
-                $url .= '?'.$query;
+                $url .= '?' . $query;
             } else {
-                $url .= '&'.$query;
+                $url .= '&' . $query;
             }
         }
         $curl = self::_curlInit($url, ['Content-Type' => 'application/json']);
@@ -145,18 +149,11 @@ class HttpClient
      */
     private static function _doRequest($curl)
     {
-        if (! extension_loaded('curl')) {
-            throw new HeroException('please install curl extension.');
-        }
         try {
             $ret = curl_exec($curl);
             if (false === $ret) {
                 throw new CurlException('接口网络异常，请稍候再试');
             }
-            if (false === $ret) {
-                throw new CurlException('cURLException:'.curl_error($curl));
-            }
-
             return $ret;
         } finally {
             curl_close($curl);

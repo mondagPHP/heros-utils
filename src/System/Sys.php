@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\System;
 
 final class Sys
@@ -59,7 +59,7 @@ final class Sys
     {
         $version = \trim($version, '.');
 
-        return (bool) \preg_match('#^'.\preg_quote($version, '').'#i', $current);
+        return (bool) \preg_match('#^' . \preg_quote($version, '') . '#i', $current);
     }
 
     /**

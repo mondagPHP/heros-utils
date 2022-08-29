@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\String;
 
 use Monda\Utils\Exception\HeroException;
@@ -27,9 +27,9 @@ class StringUtil
      */
     public static function genGlobalUid(): string
     {
-        $lockDir = __DIR__.'/lock/';
+        $lockDir = __DIR__ . '/lock/';
         if (defined('RUNTIME_PATH')) {
-            $lockDir = RUNTIME_PATH.'/lock';
+            $lockDir = RUNTIME_PATH . '/lock';
         }
         $lock = SynLockFactory::getFileSynLock($lockDir, self::UUID_LOCK_KEY);
         $lock->tryLock();
@@ -84,7 +84,7 @@ class StringUtil
         $arr = [];
         for ($i = 0, $iMax = strlen($str); $i < $iMax; $i++) {
             if (ord($str[$i]) > 64 && ord($str[$i]) < 91) {
-                $arr[] = '_'.strtolower($str[$i]);
+                $arr[] = '_' . strtolower($str[$i]);
             } else {
                 $arr[] = $str[$i];
             }

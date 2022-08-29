@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\File;
 
 /**
@@ -29,7 +29,7 @@ class FileUtil
             return false;
         }
         foreach ($files as $value) {
-            $dir .= $value.DIRECTORY_SEPARATOR;
+            $dir .= $value . DIRECTORY_SEPARATOR;
             if (! file_exists($dir) && ! mkdir($dir, 0777) && ! is_dir($dir)) {
                 return false;
             }
@@ -50,7 +50,7 @@ class FileUtil
         //删除文件夹下面的文件
         while ($file = readdir($handle)) {
             if ('.' !== $file && '..' !== $file) {
-                $filename = $dir.'/'.$file;
+                $filename = $dir . '/' . $file;
                 if (! is_dir($filename)) {
                     @unlink($filename);
                 } else {
@@ -106,7 +106,7 @@ class FileUtil
             return ! ($matchRes === 0 || $matchRes === false);
         });
         array_walk($newFiles, function (&$itemF) use ($dir) {
-            $itemF = rtrim($dir).'/'.$itemF;
+            $itemF = rtrim($dir) . '/' . $itemF;
         });
 
         return array_values($newFiles);
@@ -125,10 +125,10 @@ class FileUtil
         if (false !== $handler) {
             while ($filename = readdir($handler)) {
                 if ('.' !== $filename && '..' !== $filename) {
-                    if (is_dir($absoluteDir.'/'.$filename)) {
-                        self::getDirFiles($absoluteDir.'/'.$filename, $relativeDir.$filename.'/', $files);
+                    if (is_dir($absoluteDir . '/' . $filename)) {
+                        self::getDirFiles($absoluteDir . '/' . $filename, $relativeDir . $filename . '/', $files);
                     } else {
-                        $files[] = $relativeDir.$filename;
+                        $files[] = $relativeDir . $filename;
                     }
                 }
             }

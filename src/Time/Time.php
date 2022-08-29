@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Time;
 
 /**
@@ -27,15 +27,15 @@ class Time
         if ($dif < 10) {
             $return = '刚刚';
         } elseif ($dif < 3600) {
-            $return = floor($dif / 60).'分钟前';
+            $return = floor($dif / 60) . '分钟前';
         } elseif ($dif < 10800) {
-            $return = floor($dif / 3600).'小时前';
+            $return = floor($dif / 3600) . '小时前';
         } elseif (date('Y-m-d', $timestamp) === date('Y-m-d')) {
-            $return = '今天 '.$hTime;
+            $return = '今天 ' . $hTime;
         } elseif (date('Y-m-d', $timestamp) === date('Y-m-d', strtotime('-1 day'))) {
-            $return = '昨天 '.$hTime;
+            $return = '昨天 ' . $hTime;
         } elseif (date('Y-m-d', $timestamp) === date('Y-m-d', strtotime('-2 day'))) {
-            $return = '前天 '.$hTime;
+            $return = '前天 ' . $hTime;
         } elseif (date('Y', $timestamp) === date('Y')) {
             $return = date('m-d H:i', $timestamp);
         } else {

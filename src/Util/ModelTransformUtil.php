@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Util;
 
 use Monda\Utils\Exception\HeroException;
@@ -28,7 +28,7 @@ class ModelTransformUtil
         $obj = $refClass->newInstance();
         // Vo对象自动初始化
         foreach ($map as $key => $value) {
-            $methodName = 'set'.ucwords(StringUtil::underline2hump($key));
+            $methodName = 'set' . ucwords(StringUtil::underline2hump($key));
             if ($refClass->hasMethod($methodName)) {
                 $method = $refClass->getMethod($methodName);
                 $method->invoke($obj, $value);
@@ -57,7 +57,7 @@ class ModelTransformUtil
             if (strpos($property, '_')) {
                 $property = StringUtil::underline2hump($property); //转换成驼锋格式
             }
-            $method = 'get'.ucfirst($property);
+            $method = 'get' . ucfirst($property);
             $map[$property] = $model->{$method}();
         }
 

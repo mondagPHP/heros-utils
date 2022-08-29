@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Image;
 
 /**
@@ -126,13 +126,13 @@ class CaptchaBuilder implements CaptchaBuilderInterface
         if (isset($config['fonts']) && empty($config['fonts']) === false) {
             $this->fonts = $config['fonts'];
         } else {
-            $fontDir = __DIR__.'/fonts/';
+            $fontDir = __DIR__ . '/fonts/';
             $this->fonts = array_filter(array_slice(scandir($fontDir), 2), function ($file) use ($fontDir) {
-                return is_file($fontDir.$file) && strcasecmp(pathinfo($file, PATHINFO_EXTENSION), 'ttf') === 0;
+                return is_file($fontDir . $file) && strcasecmp(pathinfo($file, PATHINFO_EXTENSION), 'ttf') === 0;
             });
             if (empty($this->fonts) === false) {
                 foreach ($this->fonts as &$font) {
-                    $font = $fontDir.$font;
+                    $font = $fontDir . $font;
                 }
                 unset($font);
             }

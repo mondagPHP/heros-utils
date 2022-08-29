@@ -5,8 +5,8 @@ declare(strict_types=1);
  * This file is part of heros-utils.
  *
  * @contact  mondagroup_php@163.com
+ *
  */
-
 namespace Monda\Utils\Html;
 
 use Monda\Utils\Exception\HeroException;
@@ -37,7 +37,7 @@ class Rich
             $nodeList = $xpath->query('//img');
             foreach ($nodeList as $node) {
                 $url = $node->attributes->getNamedItem('src')->nodeValue;
-                $node->setAttribute('src', $prefixPath.$url);
+                $node->setAttribute('src', $prefixPath . $url);
             }
 
             return self::dealRichText($dom->saveHTML());
